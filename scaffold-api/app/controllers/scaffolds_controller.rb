@@ -3,7 +3,7 @@ class ScaffoldsController < ApplicationController
   # end
 
   def index
-    
+    @scaffolds = File.read('../../../lib/assets/scaffolds.json')
   end
 
 # private

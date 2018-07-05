@@ -52,7 +52,9 @@ json_data = {}
 
 json_data["data"] = load_manhattan
 
-File.open("./scaffolds.json","w") do |file|
+File.open("./scaffold-api/lib/assets/scaffolds.json","w") do |file|
   file.write(json_data.to_json)
   puts "json file updated!"
+  file.close
+  puts "json file closed!"
 end
