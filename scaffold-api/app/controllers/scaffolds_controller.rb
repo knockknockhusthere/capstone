@@ -1,9 +1,13 @@
+require 'pry'
+
 class ScaffoldsController < ApplicationController
   # def root
   # end
 
   def index
-    @scaffolds = File.read('../../../lib/assets/scaffolds.json')
+    scaffolds = File.read(Rails.root.join('lib', 'assets', 'scaffolds.json'))
+
+    render json: scaffolds
   end
 
 # private
