@@ -18,12 +18,12 @@ class ScaffoldsController < ApplicationController
 
      routes_result = ScaffoldApiWrapper.get_routes(locations)
 
-    # hello = routes_result["routes"]
+     # hello = routes_result["routes"]
     #
     # top_route = Computations.find_best_route(routes_result["routes"])
     # render json: routes_result
 
-    render json: scaffolds
+    render json: routes_result
 
   end
 end
