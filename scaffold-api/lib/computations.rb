@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> a8cee75d4fd15c417a80fdff5e9aeb3c8f2a3363
 class Computations
   def total_scaffold_distance()
     scaffolds = File.read(Rails.root.join('lib', 'assets', 'scaffolds.json'))

@@ -17,16 +17,13 @@ class ScaffoldsController < ApplicationController
     }
 
      routes_result = ScaffoldApiWrapper.get_routes(locations)
-    #
+
     # hello = routes_result["routes"]
     #
     # top_route = Computations.find_best_route(routes_result["routes"])
+    # render json: routes_result
 
-    render json: routes_result
+    render json: scaffolds
+
   end
-
-# private
-#  def media_params
-#    params.require(:work).permit(:title, :author, :description, :publication_year)
-#  end
 end
