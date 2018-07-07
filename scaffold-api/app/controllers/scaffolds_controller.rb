@@ -2,7 +2,8 @@ class ScaffoldsController < ApplicationController
 
   def index
     # scaffolds = File.read(Rails.root.join('lib', 'assets', 'scaffolds.json'))
-
+    #
+    # render json: scaffolds
     # locations = params[:query]
 
     locations = {
@@ -18,8 +19,11 @@ class ScaffoldsController < ApplicationController
 
     routes_result = ScaffoldApiWrapper.get_routes(locations)
 
-    top_route = Computations.find_best_route(routes_result["routes"])
-    render json: routes_result
+    # render json: routes_result
+
+    print_output = Computations.calculate_scaffolding_percentages(routes_result["routes"])
+
+    render json: print_output
 
   end
 end
