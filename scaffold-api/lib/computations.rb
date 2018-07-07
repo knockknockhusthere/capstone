@@ -1,20 +1,29 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> a8cee75d4fd15c417a80fdff5e9aeb3c8f2a3363
 class Computations
-  def total_scaffold_distance()
+  def total_scaffold_distance(route_steps)
     scaffolds = File.read(Rails.root.join('lib', 'assets', 'scaffolds.json'))
 
+    covered_distance = 0
 
+    route_steps.each do |step|
+      scaffolds["data"].each do |scaffold|
+        #line equation
+        # check scaffold distance from line
+        # if true, add to covered_distance
+      end
+    end
+
+    return covered_distance
   end
 
-  def self.find_best_route(routes)
+  def self.calculate_scaffolding_percentages(routes)
 
     routes.each do |route|
-      covered_distance = check_for_scaffold(route["steps"])
+      covered_distance = check_for_scaffold(route["legs"][0]["steps"]) * 0.3048
+      # covered_distance of scaffolding in feet, coverted to meters to match google maps
+      total_distance = route["legs"][0]["distance"]["value"]
 
-      route["covered_distance"] = covered_distance
+      route["covered_percent"] = covered_distance / total_distance
     end
 
   end

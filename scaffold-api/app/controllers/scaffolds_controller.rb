@@ -1,7 +1,7 @@
 class ScaffoldsController < ApplicationController
 
   def index
-    scaffolds = File.read(Rails.root.join('lib', 'assets', 'scaffolds.json'))
+    # scaffolds = File.read(Rails.root.join('lib', 'assets', 'scaffolds.json'))
 
     # locations = params[:query]
 
@@ -16,13 +16,9 @@ class ScaffoldsController < ApplicationController
       }
     }
 
-     routes_result = ScaffoldApiWrapper.get_routes(locations)
+    routes_result = ScaffoldApiWrapper.get_routes(locations)
 
-     # hello = routes_result["routes"]
-    #
-    # top_route = Computations.find_best_route(routes_result["routes"])
-    # render json: routes_result
-
+    top_route = Computations.find_best_route(routes_result["routes"])
     render json: routes_result
 
   end
