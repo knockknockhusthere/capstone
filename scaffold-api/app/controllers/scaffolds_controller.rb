@@ -4,7 +4,6 @@ class ScaffoldsController < ApplicationController
     # scaffolds = File.read(Rails.root.join('lib', 'assets', 'scaffolds.json'))
     #
     # render json: scaffolds
-    # locations = params[:query]
 
     locations = {
       "start_location": {
