@@ -1,5 +1,15 @@
 require 'matrix'
 
+LATITUDE_DEGREE = 111321.4944
+# 365,228ft in 1 degree latitude, differences across longitude is negligible
+# converted to meters to match GMAPS = 111,321.5
+LONGITUDE_DEGREE = 110639.814778621
+#cosine of latitude, using 40.73 as an estimate for NYC
+#multiplied by 69.172 miles, converted to meters (1609.34 meters per mile)
+MAX_DIFF = 5
+# 7.62m is roughly 25ft
+METERS_PER_FT = 0.3048
+
 class Computations
 
   def self.orthogonal_projection(line,scaffold_pt)
@@ -30,11 +40,11 @@ class Computations
   end
 
   def self.distance_between_pts(intersect, scaf)
-    lat_diff = intersect[0] - scaf[0]
-    lng_diff = intersect[1] - scaf[1]
+    lat_diff = (intersect[0] - scaf[0]) * LATITUDE_DEGREE
+    lng_diff = (intersect[1] - scaf[1]) * LONGITUDE_DEGREE
 
     distance = Math.sqrt((lat_diff**2) + (lng_diff**2))
-    return dist
+    return distance
   end
 
   def self.total_scaffold_distance(route_steps)
@@ -42,7 +52,7 @@ class Computations
 
     data = JSON.parse(scaffolds)
 
-    covered_distance = []
+    covered_distance = 0
 
     route_steps.each do |step|
       beg_coords = [
@@ -63,11 +73,9 @@ class Computations
         closest_pt = Computations.orthogonal_projection(line, scaf_coords)
         distance_from_route = Computations.distance_between_pts(closest_pt, scaf_coords)
 
-        # covered_distance << results
-        # line equation
-        # check scaffold distance from line
-        # if true, add to covered_distance
-
+        if distance_from_route < MAX_DIFF
+          covered_distance += scaffold["sidewalk_shed_linear_feet"] * METERS_PER_FT
+        end
       end
     end
 
@@ -77,13 +85,13 @@ class Computations
   def self.calculate_scaffolding_percentages(routes)
 
     routes.each do |route|
-      # covered_distance = total_scaffold_distance(route["legs"][0]["steps"]) * 0.3048
-      # # covered_distance of scaffolding in feet, coverted to meters to match google maps
-      # total_distance = route["legs"][0]["distance"]["value"]
-      #
-      # route["covered_percent"] = covered_distance / total_distance
+      covered_distance = total_scaffold_distance(route["legs"][0]["steps"])
+      # covered_distance of scaffolding in meters
 
-      return Computations.total_scaffold_distance(route["legs"][0]["steps"])
+      total_distance = route["legs"][0]["distance"]["value"]
+      route["covered_percent"] = covered_distance / total_distance
+
+      return "covered_distance is #{covered_distance}, total route distance is #{total_distance}. Therefore the percentage covered is: #{'%.2f' % ((covered_distance / total_distance) * 100) }%!"
     end
 
   end
