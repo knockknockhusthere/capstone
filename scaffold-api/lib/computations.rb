@@ -6,7 +6,7 @@ LATITUDE_DEGREE = 111321.4944
 LONGITUDE_DEGREE = 110639.814778621
 #cosine of latitude, using 40.73 as an estimate for NYC
 #multiplied by 69.172 miles, converted to meters (1609.34 meters per mile)
-MAX_DIFF = 5
+MAX_DIFF = 7.62
 # 7.62m is roughly 25ft
 METERS_PER_FT = 0.3048
 
@@ -14,7 +14,7 @@ class Computations
 
   def self.orthogonal_projection(line,scaffold_pt)
 
-    # line = [[3, 7], [8, 13]]
+    #line = [[3, 7], [8, 13]]
     # scaffold_pt = [4, 9]
 
     start_pt = line[0]
@@ -30,7 +30,7 @@ class Computations
 
 
     u_norm = (Math.sqrt(u_x**2 + u_y**2))**2
-    result = [u,v,u.inner_product(v), u_norm]
+    # result = [u, v, u.inner_product(v), u_norm]
 
     change = (u * (u.inner_product(v) / u_norm)).to_a
 
@@ -64,6 +64,8 @@ class Computations
 
       line = [beg_coords, end_coords]
 
+      step_covered_distance = 0
+
       data["data"].each do |scaffold|
         scaf_coords = [
           scaffold["latitude_point"],
@@ -74,12 +76,16 @@ class Computations
         distance_from_route = Computations.distance_between_pts(closest_pt, scaf_coords)
 
         if distance_from_route < MAX_DIFF
-          covered_distance += scaffold["sidewalk_shed_linear_feet"] * METERS_PER_FT
+
+          step_covered_distance += scaffold["sidewalk_shed_linear_feet"] * METERS_PER_FT
         end
       end
+
+      add_dist = step_covered_distance < step['distance']['value'] ?  step_covered_distance : step['distance']['value']
+      covered_distance += add_dist
     end
 
-    return covered_distance
+    return covered_distance.to_f
   end
 
   def self.calculate_scaffolding_percentages(routes)
