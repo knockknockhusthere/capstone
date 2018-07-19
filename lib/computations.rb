@@ -12,6 +12,21 @@ METERS_PER_FT = 0.3048
 
 class Computations
 
+  def self.calculate_scaffolding_percentages(routes)
+
+    routes.each do |route|
+      covered_distance = total_scaffold_distance(route["legs"][0]["steps"])
+      # covered_distance of scaffolding in meters
+
+      total_distance = route["legs"][0]["distance"]["value"]
+      route["covered_percent"] = covered_distance / total_distance
+
+      # return "covered_distance is #{covered_distance}, total route distance is #{total_distance}. Therefore the percentage covered is: #{'%.2f' % ((covered_distance / total_distance) * 100) }%!"
+    end
+
+    return routes
+  end
+
   def self.orthogonal_projection(line,scaffold_pt)
 
     #line = [[3, 7], [8, 13]]
@@ -88,17 +103,5 @@ class Computations
     return covered_distance.to_f
   end
 
-  def self.calculate_scaffolding_percentages(routes)
 
-    routes.each do |route|
-      covered_distance = total_scaffold_distance(route["legs"][0]["steps"])
-      # covered_distance of scaffolding in meters
-
-      total_distance = route["legs"][0]["distance"]["value"]
-      route["covered_percent"] = covered_distance / total_distance
-
-      return "covered_distance is #{covered_distance}, total route distance is #{total_distance}. Therefore the percentage covered is: #{'%.2f' % ((covered_distance / total_distance) * 100) }%!"
-    end
-
-  end
 end

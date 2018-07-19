@@ -4,5 +4,5 @@ Rails.application.routes.draw do
 
   get "/routes", to: "scaffolds#evaluate_routes", as: "routes"
 
-  get "/update", to: "scaffolds#update_data", as: "update"
+  get "/update_scaf_data", to: "scaffolds#update_data", as: "update_scaf_data"
 end

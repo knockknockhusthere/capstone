@@ -10,36 +10,15 @@ class ScaffoldsController < ApplicationController
 
   def evaluate_routes
 
-  # beg: 40.7551951, -73.98390049999999
-  # end:  40.7699309, -73.99268739999999
-
-    # locations = {
-    #   "start_location": {
-    #     "lat": 40.7551951,
-    #     "lng": -73.98390049999999
-    #   },
-    #   "end_location": {
-    #     "lat": 40.7699309,
-    #     "lng": -73.99268739999999
-    #   }
-    # }
-    #
-    # locations = {
-    #   start_location: "1 Bryant Park, New York",
-    #   end_location: "Madison Square Park"
-    # }
-
-    # locations = scaf_params
-    #
     routes_result = ScaffoldApiWrapper.get_routes_names(scaf_params)
+    all_routes_array = routes_result["routes"]
 
-    # routes_result = ScaffoldApiWrapper.get_routes(params[:start_location],params[:end_location])
     print_output = Computations.calculate_scaffolding_percentages(routes_result["routes"])
     results = {results: print_output}
 
-    render json: results
+    # render json: results
     # render json: params[:start_location]
-    # render json: locations
+    render json:routes_result["routes"]
 
   end
 
