@@ -1,0 +1,15 @@
+/log/*
+/tmpt/*
+/.bundle
+
+/config/master.key
+.byebug_history
+
+!/log/.keep
+!/tmp/.keep
+
+/storage/*
+
+.env
+
+/.expo
