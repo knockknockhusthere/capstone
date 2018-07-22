@@ -1,15 +1,15 @@
-/log/*
-/tmpt/*
-/.bundle
+log/*
+tmpt/*
+.bundle
 
-/config/master.key
+config/master.key
 .byebug_history
 
 !/log/.keep
 !/tmp/.keep
 
-/storage/*
+storage/*
 
 .env
 
-/.expo
+.expo
