@@ -1,6 +1,5 @@
 require 'json'
 require 'open-uri'
-require 'pry'
 require 'httparty'
 
 URL = 'https://maps.googleapis.com/maps/api/directions/json?key=AIzaSyDHdXHS6ynAo-86jHWfE-WnJJgKM5R7qjs&origin=40.7699479,-73.9909748&destination=40.7554261,-73.9866257&mode=walking&alternatives=true'
