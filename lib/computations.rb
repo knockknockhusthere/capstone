@@ -139,8 +139,9 @@ class Computations
       route['region'] = {
           'latitude' => (lat_sum / routes_num),
           'longitude' => (lng_sum / routes_num),
-          'latitudeDelta' => (max_lat - min_lat),
-          'longitudeDelta' => (max_lng - min_lng)
+          'latitudeDelta' => ((max_lat - min_lat) * 1.10),
+          'longitudeDelta' => ((max_lng - min_lng) * 1.10)
+          # 10% increase to create a border
       }
     end
     return routes_data
