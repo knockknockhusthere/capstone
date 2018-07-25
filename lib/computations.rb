@@ -96,12 +96,54 @@ class Computations
         end
       end
 
-      add_dist = step_covered_distance < step['distance']['value'] ?  step_covered_distance : step['distance']['value']
+      add_dist = step_covered_distance < step['distance']['value'] ? step_covered_distance : step['distance']['value']
       covered_distance += add_dist
     end
 
     return covered_distance.to_f
   end
 
+  def self.calculate_region(routes_data)
+    latitudes = []
+    longitudes = []
+
+    lat_sum = 0
+    lng_sum = 0
+
+    routes_num = routes_data.length
+
+    routes_data.each do |route|
+
+      northeast = route['bounds']['northeast']
+      southwest = route['bounds']['southwest']
+
+      latitudes << northeast['lat']
+      latitudes << southwest['lat']
+      longitudes << northeast['lng']
+      longitudes << southwest['lng']
+
+      mid_lat = (northeast['lat'] + southwest['lat']) / 2
+      mid_lng = (northeast['lng'] + southwest['lng']) / 2
+
+      lat_sum += mid_lat
+      lng_sum += mid_lng
+    end
+
+    min_lat = latitudes.min
+    min_lng = longitudes.min
+    max_lat = latitudes.max
+    max_lng = longitudes.max
+
+    routes_data.each do |route|
+
+      route['region'] = {
+          'latitude' => (lat_sum / routes_num),
+          'longitude' => (lng_sum / routes_num),
+          'latitudeDelta' => (max_lat - min_lat),
+          'longitudeDelta' => (max_lng - min_lng)
+      }
+    end
+    return routes_data
+  end
 
 end

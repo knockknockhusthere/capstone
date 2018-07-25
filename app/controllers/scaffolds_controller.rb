@@ -14,11 +14,11 @@ class ScaffoldsController < ApplicationController
     all_routes_array = routes_result["routes"]
 
     print_output = Computations.calculate_scaffolding_percentages(routes_result["routes"])
-    results = {results: print_output}
+    # results = {results: print_output}
 
-    # render json: results
-    # render json: params[:start_location]
-    render json:routes_result["routes"]
+    results_with_region = Computations.calculate_region(routes_result['routes'])
+    # render json:routes_result["routes"]
+    render json: results_with_region
 
   end
 
